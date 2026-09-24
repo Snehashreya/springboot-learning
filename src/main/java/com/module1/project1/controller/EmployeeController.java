@@ -1,9 +1,13 @@
 package com.module1.project1.controller;
 
 import com.module1.project1.dto.EmployeeDTO;
+import com.module1.project1.entity.Employee;
+import com.module1.project1.repository.EmployeeRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="/employees")
@@ -14,22 +18,28 @@ public class EmployeeController {
 //        return "Super message !! Learning springboot";
 //    }
 
+    private final EmployeeRepository employeeRepository;
+
+    public EmployeeController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
     @GetMapping(path="/{employeeId}")
-    public EmployeeDTO getEmployeeById(@PathVariable(name="employeeId")long id){
-        return new EmployeeDTO(id,"sneha","sneha@gmail.com",25, LocalDate.of(2026,9,21),true);
+    public Optional<Employee> getEmployeeById(@PathVariable(name="employeeId")long id){
+        return employeeRepository.findById(id);
     }
 
     @GetMapping
-    public String getAllEmployeeById(@RequestParam(required = false, name="inputAge") Integer age,
-                                          @RequestParam String sortBy){
-        return "My age is:" +age + " " +sortBy;
+    public List<Employee> getAllEmployeeById(@RequestParam(required = false, name="inputAge") Integer age,
+                                             @RequestParam(required = false) String sortBy){
+        return employeeRepository.findAll();
     }
 
     @PostMapping
-    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO employee){
-        employee.setId(100L);
-        return employee;
+    public Employee createNewEmployee(@RequestBody Employee employee){
+        return employeeRepository.save(employee);
     }
+
     @PutMapping
     public String updateEmployee(){
         return "Update new employee";
