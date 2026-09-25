@@ -3,6 +3,7 @@ package com.module1.project1.controller;
 import com.module1.project1.dto.EmployeeDTO;
 import com.module1.project1.entity.Employee;
 import com.module1.project1.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody EmployeeDTO inputEmployee){
+    public ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody @Valid EmployeeDTO inputEmployee){
         EmployeeDTO savedEmployeeDTO = employeeService.createEmployee(inputEmployee);
         return new ResponseEntity<>(savedEmployeeDTO, HttpStatus.CREATED);
     }
