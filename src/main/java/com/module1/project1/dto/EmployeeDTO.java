@@ -1,5 +1,6 @@
 package com.module1.project1.dto;
 
+import com.module1.project1.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -21,13 +22,14 @@ public class EmployeeDTO {
     @Email(message = "email should be a valid email")
     private String email;
 
-    @NotBlank(message = "Age of employee cannot be blank")
+//    @NotBlank(message = "Age of employee cannot be blank")
     @Max(value =80, message = "age cannot be greater than 80")
     @Min(value =18, message = "age cannot be greater than 18")
     private Integer age;
 
     @NotBlank(message = "role of employee cannot be blank")
-    @Pattern(regexp = "^(ADMIN|USER)$",message = "role of employee should be ADMIN or USER")
+//    @Pattern(regexp = "^(ADMIN|USER)$",message = "role of employee should be ADMIN or USER")
+    @EmployeeRoleValidation
     private String role; //ADMIN //USER
 
     @PastOrPresent(message = "data of joining cannot be in future")
@@ -36,7 +38,7 @@ public class EmployeeDTO {
     @AssertTrue(message = "employee should be active")
     private Boolean isActive;
 
-    @NotBlank
+//    @NotBlank
     @Positive(message = "Salary of employee should be positive")
     @Digits(integer = 6, fraction = 2,message = "salary can be in the form XXXX.YY")
     @DecimalMax(value = "10000.99")
